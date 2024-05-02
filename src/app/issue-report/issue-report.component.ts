@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, inject } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { IssueForm } from './types/issue-form.interface';
@@ -10,7 +10,7 @@ import { Issue } from '../core/types/issue.interface';
   templateUrl: './issue-report.component.html',
   styleUrl: './issue-report.component.css'
 })
-export class IssueReportComponent {
+export class IssueReportComponent implements OnInit {
   @Output() formClose = new EventEmitter<void>();
 
   private readonly fb = inject(FormBuilder);
@@ -21,6 +21,13 @@ export class IssueReportComponent {
     priority: new FormControl('', { nonNullable: true, validators: Validators.required }),
     type: new FormControl('', { nonNullable: true, validators: Validators.required })
   });
+  suggestions: Issue[] = [];
+
+  ngOnInit(): void {
+    this.issueForm.controls.title.valueChanges.subscribe(title => {
+      this.suggestions = this.issueService.getSuggestions(title);
+    });
+  };
 
   onSubmit(): void {
     if (this.issueForm && this.issueForm.invalid) {
