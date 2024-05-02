@@ -12,6 +12,7 @@ export class IssueListComponent implements OnInit {
   private readonly issuesService = inject(IssuesService);
   issues: Issue[] = [];
   showReportIssue: boolean = false;
+  selectedIssue: Issue | null = null;
 
   ngOnInit(): void {
     this.getIssues();
@@ -21,6 +22,14 @@ export class IssueListComponent implements OnInit {
     this.showReportIssue = false;
     this.getIssues();
   };
+
+  onConfirm(confirmed: boolean) {
+    if (confirmed && this.selectedIssue) {
+      this.issuesService.completeIssue(this.selectedIssue);
+      this.getIssues();
+    };
+    this.selectedIssue = null;
+  }
 
   private getIssues(): void {
     this.issues = this.issuesService.getPendingIssues();
