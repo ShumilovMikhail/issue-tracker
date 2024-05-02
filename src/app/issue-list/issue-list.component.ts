@@ -9,10 +9,16 @@ import { Issue } from '../core/types/issue.interface';
   styleUrl: './issue-list.component.css'
 })
 export class IssueListComponent implements OnInit {
-  issues: Issue[] = [];
   private readonly issuesService = inject(IssuesService);
+  issues: Issue[] = [];
+  showReportIssue: boolean = false;
 
   ngOnInit(): void {
+    this.getIssues();
+  };
+
+  onCloseReport() {
+    this.showReportIssue = false;
     this.getIssues();
   };
 

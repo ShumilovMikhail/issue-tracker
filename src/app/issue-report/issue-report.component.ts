@@ -1,5 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+
 import { IssueForm } from './types/issue-form.interface';
 import { IssuesService } from '../core/services/issues.service';
 import { Issue } from '../core/types/issue.interface';
@@ -10,6 +11,8 @@ import { Issue } from '../core/types/issue.interface';
   styleUrl: './issue-report.component.css'
 })
 export class IssueReportComponent {
+  @Output() formClose = new EventEmitter<void>();
+
   private readonly fb = inject(FormBuilder);
   private readonly issueService = inject(IssuesService);
   issueForm: FormGroup<IssueForm> = this.fb.group({
@@ -21,6 +24,7 @@ export class IssueReportComponent {
 
   onSubmit(): void {
     this.issueService.createIssue(this.issueForm.getRawValue() as Issue);
+    this.formClose.emit();
   };
 
 };
