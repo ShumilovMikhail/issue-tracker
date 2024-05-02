@@ -14,4 +14,9 @@ export class IssuesService {
   public getPendingIssues(): Issue[] {
     return this.issues.filter((issue: Issue) => !issue.completed);
   };
+
+  public createIssue(issue: Issue): void {
+    issue.issueNo = this.issues.length + 1;
+    this.issues.push(issue);
+  };
 };
