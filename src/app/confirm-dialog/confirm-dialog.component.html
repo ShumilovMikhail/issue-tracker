@@ -1,4 +1,4 @@
-<clr-modal [clrModalOpen]="issueNo !== null" [clrModalClosable]="false">
+<clr-modal [clrModalOpen]="issueNo !== null" [clrModalClosable]="false" *ngIf="issueNo">
   <h3 class="modal-title">
     Resolve Issue #
     {{issueNo}}
